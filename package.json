@@ -1,0 +1,23 @@
+{
+  "name": "mixeo",
+  "version": "1.0.0",
+  "description": "A video editing and sharing platform.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohithVR101/Mixeo.git"
+  },
+  "author": "Rohith Adithya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohithVR101/Mixeo/issues"
+  },
+  "homepage": "https://github.com/rohithVR101/Mixeo#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
