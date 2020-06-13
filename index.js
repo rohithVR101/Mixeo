@@ -1,13 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const formidable = require('formidable');
-const fs = require('fs');
+const cutter = require("./video-cutter")
 const app = express();
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(bodyParser.json());
 
 app.use(express.static("public"));
 
@@ -29,6 +30,13 @@ app.post("/new", (req, res) => {
         res.render("pages/new", {
             'path': 'uploads/' + file.name
         });
+    });
+});
+
+app.post("/stage", (req, res) => {
+    cutter(req.body.content, req.body.start, req.body.duration);
+    res.render("pages/stage", {
+        'path': 'rendered/uploads/' + req.body.content
     });
 });
 

@@ -25,11 +25,11 @@
         </div>
     </div>
 </div>
-
-<div class="options">
-    <p id="totaldur"></p>
-    <p id="selectdur"></p>
-    <button class="btn btn-warning" type="submit" value="CREATE A NEW VIDEO">CUT CLIP</button>
-
-</div>
+<form class="options" action="/stage" method="POST">
+    <label for="totaldur">Total video length:</label>
+    <input type="text" name="totaldur" id="totaldur" readonly>
+    <label for="selectdur">Duration selected:</label>
+    <input type="text" name="selectdur" id="selectdur" readonly>
+    <button class="btn btn-warning" id="cut" name="submit" type="submit">CUT CLIP</button>
+</form>
 <%- include("../partials/footer"); -%>

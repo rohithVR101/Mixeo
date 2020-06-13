@@ -1,8 +1,8 @@
 (function (global, $) {
     global.RP = (domId) => {
+        let vidProp = {}
         return new RangePlayer(domId)
     }
-
 
     function RangePlayer(domId) {
         $("#" + domId).addClass("video-dom");
@@ -10,7 +10,6 @@
 
         vid.controls = false;
         vid.volume = .4;
-        let vidProp = {}
         vid.ontimeupdate = function () {
             if (vidPos() >= vidProp.end) {
                 vid.pause();
@@ -56,8 +55,8 @@
                 end: vid.duration,
                 mode: 'off'
             };
-            $("#totaldur").text('Total video length: ' + setDuration(vid.duration));
-            $("#selectdur").text('Duration selected:' + setDuration(vidProp.end - vidProp.start));
+            $("#totaldur").val(setDuration(vid.duration));
+            $("#selectdur").val( setDuration(vidProp.end - vidProp.start));
 
 
             $('#vid-range').slider({
@@ -94,7 +93,7 @@
                         max: vidProp.end,
                         min: vidProp.start,
                     })
-                    $("#selectdur").text('Duration selected:' + setDuration(vidProp.end-vidProp.start));
+                    $("#selectdur").val(setDuration(vidProp.end - vidProp.start));
                 },
             });
 
@@ -144,5 +143,4 @@
         return hours + ':' + minutes + ':' + seconds;
     }
     $('#vname').text(($('#vname').text()).replace("uploads/", ""));
-
 }(window, $))
