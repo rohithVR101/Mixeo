@@ -1,0 +1,51 @@
+body{
+    background-color: #77d8d8;
+    text-align: center;
+    /* min-height: 100%; */
+}
+
+footer {
+    background-color: #120136;
+    vertical-align: middle;
+    clear: both;
+    font-family: sans-serif;
+    color: white;
+    text-decoration: none;
+    position: fixed;
+    padding: 1rem 0rem;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover {
+    color: #00adb5;
+}
+
+.container-fluid{
+    padding-top: 2rem;
+}
+
+.navbar-brand{
+    font-family: 'Pacifico',
+    cursive;
+    font-size: 2rem;
+}
+
+.nav-link{
+    /* font-weight: bold; */
+    font-size: 1.25rem;
+}
+
+#videouploader {
+    text-align: center;
+    height: fit-content;
+}
+
+.carousel {
+    height: 500px;
+    margin-bottom: 60px;
+}
