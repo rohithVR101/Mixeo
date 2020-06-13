@@ -6,16 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/rangePlayer.css" />
+    <link rel="stylesheet" href="css/style.css">
 
     <title>Mixeo</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="">Mixeo</a>
+        <a class="navbar-brand" href="/">Mixeo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,13 +27,15 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="">COMMUNITY</a>
+                    <a class="nav-link" href="/community">COMMUNITY</a>
                 </li>
             </ul>
-            <form class="form-inline ml-auto mt-2 mt-lg-0" method="POST" action="/new">
+            <form class="form-inline ml-auto mt-2 mt-lg-0" method="POST" enctype="multipart/form-data" action="/new">
                 <input class="form-control mr-sm-2" type="file" accept="video/mp4,video/x-m4v,video/*" capture
-                    placeholder="Select a video to start" id="videouploader" aria-label="Video upload">
-                <button class="btn btn-warning my-2 my-sm-0" type="submit">CREATE A NEW VIDEO</button>
+                    class="custom-file-input" id="videouploader" aria-label="Video upload" name="upload"
+                    multiple>
+                <input class="btn btn-warning my-2 my-sm-0" type="submit" value="CREATE A NEW VIDEO">
             </form>
         </div>
     </nav>
+    <div class="container-fluid">

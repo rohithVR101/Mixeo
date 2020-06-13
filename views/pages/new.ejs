@@ -1,4 +1,35 @@
-<video width='320' height='240' controls>
-    <source src='' type='video/mp4'>
-    Your browser does not support the video tag.
-</video>
+<%- include("../partials/header"); -%>
+<h1>Prepare video</h1>
+<br>
+<div style="text-align:center">
+    <h5 id="vname">Selected clip: <%= path %> </h5>
+    <div id="video-box">
+        <video width='640' height='360' src='<%= path %>' type='video/mp4'
+            id="editvideo">
+            Your browser does not support the video tag.
+        </video>
+        <div class="ctrl-box">
+            <div class="controler">
+                <i class="fas fa-play-circle" id="playVid"></i>
+                <div class="dragger-case">
+                    <div id="vid-range">
+                        <div id="v-range">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <i class="fas fa-volume-up" id="ctrl-sound"></i>
+                    <div id="vid-volume" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="options">
+    <p id="totaldur"></p>
+    <p id="selectdur"></p>
+    <button class="btn btn-warning" type="submit" value="CREATE A NEW VIDEO">CUT CLIP</button>
+
+</div>
+<%- include("../partials/footer"); -%>
