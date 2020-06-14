@@ -1,4 +1,5 @@
 let video = RP("editvideo");
+$("#preview").hide();
 $('#cut').click(function () {
     $.ajax({
         url: '/stage',
@@ -10,7 +11,27 @@ $('#cut').click(function () {
             content: $("#editvideo").attr('src'),
         }),
         success: function (data) {
-                console.log('process');
+            console.log('processasssss');
+        },
+        error: function () {
+            console.log('process error');
+        },
+    });
+    $('#cut').text("CUT SUCCESSFUL")
+    $('#cut').addClass('btn-success');
+    $('#cut').removeClass('btn-warning');
+    $("#preview").show(1000);
+})
+$('#preview').click(function () {
+    $.ajax({
+        url: '/preview',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            path: $("#editvideo").attr('src'),
+        }),
+        success: function (data) {
+            console.log('processasssss');
         },
         error: function () {
             console.log('process error');
