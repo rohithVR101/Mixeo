@@ -12,19 +12,16 @@ router.get('/', (req, res) => {
     res.render("pages/index", {});
 });
 
-router.get("/preview", (req, res) => {
+router.post("/preview", (req, res) => {
+    console.log(req.body.content);
     res.render("pages/preview", {
-        'path': req.body.path
+        'path': __dirname + '/../public/uploads/' + req.body.content,
     });
 });
 
-router.post("/preview", (req, res) => {
-    res.redirect("pages/preview")
-});
 
 router.get('/community', (req, res) => {
-    res.render("pages/community", {
-    });
+    res.render("pages/community", {});
 });
 
 router.post("/new", (req, res) => {
@@ -41,23 +38,30 @@ router.post("/new", (req, res) => {
 });
 
 router.post("/stage", (req, res) => {
-    var path = req.body.content;
-    ffmpeg(__dirname + "/../public/" + req.body.content)
-        .seek(req.body.start)
-        .duration(req.body.duration)
-        .on('start', function (commandLine) {
-            console.log('Started Ffmpeg with command: ' + commandLine);
-        })
-        .on('progress', function (progress) {
-            console.log('Processing: ' + progress.percent + '% done');
-        })
-        .on('end', function (stdout, stderr) {
-            console.log('Transcoding succeeded !');
-        })
-        .on("error", function (err) {
-            console.log("an error happened: " + err.message);
-        })
-        .saveToFile(__dirname + "/../public/rendered/" + req.body.content);
+    const ffpromise = new Promise((resolve, reject) => {
+        let prog = 0;
+        ffmpeg(__dirname + "/../public/" + req.body.content)
+            .seek(req.body.start)
+            .duration(req.body.duration)
+            .on('start', function (commandLine) {
+                console.log('Started Ffmpeg with command: ' + commandLine);
+            })
+            .on('progress', function (progress) {
+                prog++;
+                console.log('Processing: ' + prog + '% done');
+            })
+            .on('end', function (stdout, stderr) {
+                console.log('...\nProcessing: 100% done');
+                resolve('Transcoding succeeded !');
+            })
+            .on("error", function (err) {
+                reject("an error happened: " + err.message);
+            })
+            .saveToFile(__dirname + "/../public/rendered/" + req.body.content);
+    });
+    ffpromise.then(() => {
+        res.redirect(307, "/preview");
+    })
 });
 
 module.exports = router;
