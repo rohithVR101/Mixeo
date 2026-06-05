@@ -1,4 +1,4 @@
-public/uploads/
-public/rendered/
-assets/ffmpeg/
+.env
+tmp/
 node_modules/
+meta/
