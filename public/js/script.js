@@ -1,40 +1,31 @@
 let video = RP("editvideo");
-$("#preview").hide();
+
 $('#cut').click(function () {
+    const publicId = $("#editvideo").data('public-id');
+    
+    $('#cut').text("PROCESSING...").prop('disabled', true);
+    
     $.ajax({
         url: '/stage',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
+            publicId: publicId,
             start: vidProp.start,
-            duration: vidProp.end - vidProp.start,
-            content: $("#editvideo").attr('src'),
+            end: vidProp.end
         }),
         success: function (data) {
-            console.log('processasssss');
+            if (data.success) {
+                // Navigate to preview with the trimmed Cloudinary URL
+                window.location.href = '/preview?url=' + encodeURIComponent(data.trimmedUrl);
+            } else {
+                alert('Trim failed: ' + (data.error || 'Unknown error'));
+                $('#cut').text("CUT").prop('disabled', false);
+            }
         },
-        error: function () {
-            console.log('process error');
+        error: function (xhr) {
+            alert('Error processing video. Please try again.');
+            $('#cut').text("CUT").prop('disabled', false);
         },
     });
-    $('#cut').text("CUT PROCESSING...");
-    // $('#cut').addClass('btn-success');
-    // $('#cut').removeClass('btn-warning');
-    // $("#preview").show(1000);
-})
-// $('#preview').click(function () {
-//     $.ajax({
-//         url: '/preview',
-//         type: 'POST',
-//         contentType: 'application/json',
-//         data: JSON.stringify({
-//             path: $("#editvideo").attr('src'),
-//         }),
-//         success: function (data) {
-//             console.log('processasssss');
-//         },
-//         error: function () {
-//             console.log('process error');
-//         },
-//     });
-// })
+});
