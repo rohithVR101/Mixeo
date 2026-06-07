@@ -1,0 +1,184 @@
+/*
+ * RangePlayer.css — migrated and adapted from public/css/rangePlayer.css
+ *
+ * Original used jQuery UI's built-in slider widget styles plus custom
+ * overrides. Since we now use rc-slider and native <input type="range">
+ * we replicate the visual layout with our own selectors.
+ */
+
+/* ── Outer wrapper ───────────────────────────────────────────── */
+.range-player {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ── Video box: video + controls overlay ─────────────────────── */
+.video-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+}
+
+/* ── Video element ───────────────────────────────────────────── */
+.video-dom {
+  width: 100%;
+  max-height: 90vh;
+  display: block;
+}
+
+/* ── Control bar overlay ─────────────────────────────────────── */
+.ctrl-box {
+  display: inline-block;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ── Controller grid (play | slider | volume) ────────────────── */
+.controler {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 48px 1fr 48px;
+  grid-template-rows: 40px;
+  padding: 0 8px;
+}
+
+/* ── Play / pause button ─────────────────────────────────────── */
+.play-pause-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #f6f6f6;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.play-pause-btn:hover {
+  color: #fff;
+}
+
+/* ── Dragger case (houses both sliders) ──────────────────────── */
+.dragger-case {
+  width: 100%;
+  padding: 0 8px;
+}
+
+/* ── Trim range slider wrapper ───────────────────────────────── */
+.vid-range-wrapper {
+  position: relative;
+  padding: 10px 0;
+}
+
+/* rc-slider overrides for the trim range slider */
+.trim-range-slider .rc-slider-track {
+  background-color: #0d6efd;
+}
+
+.trim-range-slider .rc-slider-handle {
+  border-color: #0d6efd;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+}
+
+.trim-range-slider .rc-slider-handle:hover,
+.trim-range-slider .rc-slider-handle:active {
+  border-color: #0a58ca;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+}
+
+/* ── Playback position slider (nested inside trim range) ─────── */
+.playback-slider-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+  pointer-events: none; /* let trim handles receive clicks; scrubbing is draggable */
+}
+
+.playback-slider-wrapper .rc-slider {
+  pointer-events: all;
+}
+
+/* Thin teal playback line — matches original #v-range colour (#088) */
+.playback-slider .rc-slider-track {
+  background-color: #088;
+  height: 2px;
+}
+
+.playback-slider .rc-slider-rail {
+  background-color: transparent;
+  height: 2px;
+}
+
+.playback-slider .rc-slider-handle {
+  border-color: #088;
+  background: #088;
+  width: 16px;
+  height: 16px;
+  margin-top: -7px;
+  cursor: pointer;
+}
+
+.playback-slider .rc-slider-handle:hover,
+.playback-slider .rc-slider-handle:active {
+  border-color: #066;
+  box-shadow: 0 0 0 4px rgba(0, 136, 136, 0.25);
+}
+
+/* ── Volume area ─────────────────────────────────────────────── */
+.volume-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #f6f6f6;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.volume-btn:hover {
+  color: #fff;
+}
+
+/* ── Vertical volume slider ──────────────────────────────────── */
+.volume-slider-container {
+  position: absolute;
+  bottom: 40px;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume-slider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  appearance: slider-vertical;
+  -webkit-appearance: slider-vertical;
+  width: 5px;
+  height: 100px;
+  cursor: pointer;
+  accent-color: #0d6efd;
+}
