@@ -18,6 +18,7 @@ export async function uploadVideo(file) {
   const res = await fetch(`${API_BASE}/upload`, {
     method: 'POST',
     body: formData, // Do NOT set Content-Type; browser sets multipart boundary automatically
+    credentials: 'include',
   });
 
   const data = await res.json();
@@ -41,12 +42,99 @@ export async function stageVideo(publicId, start, end) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ publicId, start, end }),
+    credentials: 'include',
   });
 
   const data = await res.json();
 
   if (!res.ok || !data.success) {
     throw new Error(data.error || 'Trim failed');
+  }
+
+  return data;
+}
+
+// ── Auth API ────────────────────────────────────────────────────────────────
+
+/**
+ * Sign up a new user.
+ * @param {string} email
+ * @param {string} displayName
+ * @param {string} password
+ * @returns {Promise<{success, user}>}
+ */
+export async function signup(email, displayName, password) {
+  const res = await fetch(`${API_BASE}/auth/signup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',   // send/receive session cookie
+    body: JSON.stringify({ email, displayName, password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || 'Signup failed');
+  }
+
+  return data;
+}
+
+/**
+ * Log in with email and password.
+ * @param {string} email
+ * @param {string} password
+ * @returns {Promise<{success, user}>}
+ */
+export async function login(email, password) {
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || 'Login failed');
+  }
+
+  return data;
+}
+
+/**
+ * Log out the current user.
+ * @returns {Promise<{success}>}
+ */
+export async function logout() {
+  const res = await fetch(`${API_BASE}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || 'Logout failed');
+  }
+
+  return data;
+}
+
+/**
+ * Get the currently authenticated user (session check).
+ * @returns {Promise<{success, user}>}
+ */
+export async function getMe() {
+  const res = await fetch(`${API_BASE}/auth/me`, {
+    credentials: 'include',
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || 'Not authenticated');
   }
 
   return data;
