@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { uploadVideo } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 /**
  * Navbar — replaces the Bootstrap navbar in header.ejs.
@@ -12,6 +13,7 @@ import { uploadVideo } from '../services/api';
  *  - Navigation uses <Link> instead of <a href>, so the page does not reload.
  */
 function Navbar() {
+  const { user, logout } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
@@ -38,6 +40,15 @@ function Navbar() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  };
+
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <Link to="/" className="navbar-brand">Mixeo</Link>
@@ -46,24 +57,39 @@ function Navbar() {
         <Link to="/community" className="nav-link">COMMUNITY</Link>
       </div>
 
-      <div className="navbar-upload">
-        {/* Hidden file input — label acts as the visible button */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          id="videouploader"
-          accept="video/mp4,video/x-m4v,video/*"
-          onChange={handleFileChange}
-          disabled={uploading}
-          aria-label="Upload a video file"
-        />
-        <label
-          htmlFor="videouploader"
-          className={`btn-upload${uploading ? ' disabled' : ''}`}
-          aria-busy={uploading}
-        >
-          {uploading ? 'UPLOADING...' : 'CREATE A NEW VIDEO'}
-        </label>
+      <div className="navbar-actions">
+        {user ? (
+          <>
+            <div className="navbar-upload">
+              {/* Hidden file input — label acts as the visible button */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                id="videouploader"
+                accept="video/mp4,video/x-m4v,video/*"
+                onChange={handleFileChange}
+                disabled={uploading}
+                aria-label="Upload a video file"
+              />
+              <label
+                htmlFor="videouploader"
+                className={`btn-upload${uploading ? ' disabled' : ''}`}
+                aria-busy={uploading}
+              >
+                {uploading ? 'UPLOADING...' : 'CREATE A NEW VIDEO'}
+              </label>
+            </div>
+            <span className="nav-user">Hi, {user.displayName}</span>
+            <button onClick={handleLogout} className="btn-logout">
+              LOG OUT
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="nav-link">LOG IN</Link>
+            <Link to="/signup" className="btn-signup">SIGN UP</Link>
+          </>
+        )}
       </div>
 
       {/* Inline error toast — shown below the navbar if upload fails */}
@@ -76,6 +102,7 @@ function Navbar() {
             color: '#842029',
             padding: '0.5rem 1rem',
             fontSize: '0.875rem',
+            marginTop: '0.5rem',
           }}
         >
           Upload failed: {error}

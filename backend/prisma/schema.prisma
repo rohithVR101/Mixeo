@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── User ────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  displayName  String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  videos Video[]
+  clips  Clip[]
+
+  @@map("users")
+}
+
+// ─── Video ───────────────────────────────────────────────────────────────────
+// Every video uploaded to Cloudinary is tracked here.
+
+model Video {
+  id           String   @id @default(cuid())
+  userId       String
+  cloudinaryId String               // Cloudinary public_id (e.g. "mixeo/abc123")
+  secureUrl    String               // Cloudinary HTTPS URL
+  duration     Float                // Duration in seconds
+  title        String?              // Optional user-given name
+  createdAt    DateTime @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clips Clip[]
+
+  @@index([userId])
+  @@map("videos")
+}
+
+// ─── Clip ────────────────────────────────────────────────────────────────────
+// Each trim/cut operation produces a clip from a source video.
+
+model Clip {
+  id          String   @id @default(cuid())
+  videoId     String
+  userId      String
+  startOffset Float                  // Trim start in seconds
+  endOffset   Float                  // Trim end in seconds
+  trimmedUrl  String                 // Cloudinary transformation URL
+  createdAt   DateTime @default(now())
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([videoId])
+  @@map("clips")
+}
