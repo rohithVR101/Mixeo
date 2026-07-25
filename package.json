@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/rohithVR101/Mixeo#readme",
   "devDependencies": {
-    "concurrently": "^10.0.3"
+    "concurrently": "^10.0.4"
   }
 }
